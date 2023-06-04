@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://dtv8hxcjg4i6l"]
+
+[ext_resource type="Shader" path="res://resources/face_shader_gd4.gdshader" id="1_w7hw8"]
+[ext_resource type="Texture2D" uid="uid://b4is6nkrjjodh" path="res://sample/sample_ttFace.png" id="2_frq8v"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_w7hw8")
+shader_parameter/colum_index = 0
+shader_parameter/row_index = 0
+shader_parameter/total_frames = 4
+shader_parameter/target_texture = ExtResource("2_frq8v")

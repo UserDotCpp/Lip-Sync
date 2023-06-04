@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bb1j676ssk4u0"
+path="res://.godot/imported/it doesnt give us much to go on.mp3-05036713e126df0bd97867e9e18f1436.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/it doesnt give us much to go on.mp3"
+dest_files=["res://.godot/imported/it doesnt give us much to go on.mp3-05036713e126df0bd97867e9e18f1436.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

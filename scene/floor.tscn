@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3fjn86nbxy33"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_5avrd"]
+size = Vector2(100, 100)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_36ove"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_dkrm0"]
+
+[node name="floor" type="MeshInstance3D"]
+mesh = SubResource("PlaneMesh_5avrd")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_36ove")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_dkrm0")

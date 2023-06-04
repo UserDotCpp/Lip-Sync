@@ -1,0 +1,729 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpp5ep817it0f"]
+
+[ext_resource type="Script" path="res://script/AudioVisualizer.gd" id="2_krmo6"]
+
+[sub_resource type="GDScript" id="GDScript_ke4v2"]
+script/source = "extends CharacterBody3D 
+
+const MOVE_SPEED = 8
+const MOUSE_SENS = 0.18
+#var nopausa = true #or {} if it doesnt work
+var arezombies = false
+
+
+func _ready():
+
+	#if u gonna use zombies decoment walk
+	#anim_player.play(\"walk\")
+	
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED) #hide mouse
+
+
+#___________________________________________________________________________________________________	
+	
+func _input(event):
+	if event is InputEventMouseMotion: #mouse ovement
+		rotation_degrees.y -= MOUSE_SENS * event.relative.x
+		rotation_degrees.x -= MOUSE_SENS * event.relative.y
+
+#___________________________________________________________________________________________________
+func _physics_process(delta):
+	var move_vec = Vector3()
+	if Input.is_action_pressed(\"w\"):
+		move_vec.z -= 1
+
+	if Input.is_action_pressed(\"s\"):
+		move_vec.z += 1
+
+	if Input.is_action_pressed(\"a\"):
+		move_vec.x -= 1
+	if Input.is_action_pressed(\"d\"):
+		move_vec.x += 1
+
+	#limits the speads of streifing
+	move_vec = move_vec.normalized()
+	move_vec = move_vec.rotated(Vector3(0, 1, 0), rotation.y)
+	move_vec = Vector3(move_vec.x,0,move_vec.z) 
+# warning-ignore:return_value_discarded
+	move_and_collide(move_vec* MOVE_SPEED * delta)
+
+		
+#olso used for shooting
+
+#___________________________________________________________________________________________________
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yrd1r"]
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(0.991613, 0, 0.129246, 0, 1, 0, -0.129246, 0, 0.991613, 6.59286, 1.26422, 19.2525)
+script = SubResource("GDScript_ke4v2")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.993713, -0.111955, 4.89369e-09, 0, -4.37114e-08, -1, 0.111955, 0.993713, -4.34366e-08, 7.65111, 0, -14.8338)
+shape = SubResource("CapsuleShape3D_yrd1r")
+
+[node name="RayCast" type="RayCast3D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Margin" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(128, 75)
+
+[node name="AudioVisualizer" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 524.0
+offset_top = 616.0
+offset_right = 564.0
+offset_bottom = 656.0
+script = ExtResource("2_krmo6")
+
+[node name="Base" type="TextureRect" parent="CanvasLayer/AudioVisualizer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_left = -557.0
+offset_top = -641.0
+offset_right = 467.0
+offset_bottom = 383.0
+scale = Vector2(0.414051, 0.255382)
+
+[node name="Right" type="Control" parent="CanvasLayer/AudioVisualizer/Base"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bottom" type="Control" parent="CanvasLayer/AudioVisualizer/Base/Right"]
+anchors_preset = 0
+offset_left = 289.036
+offset_top = -1.04846
+offset_right = 329.036
+offset_bottom = 38.9515
+scale = Vector2(0.499796, 0.574622)
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = -420.748
+offset_top = -1.04846
+offset_right = -380.748
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = -365.938
+offset_top = -1.04846
+offset_right = -325.938
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect3" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = -311.129
+offset_top = -1.04846
+offset_right = -271.129
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect4" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = -256.319
+offset_top = -1.04846
+offset_right = -216.319
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect5" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = -201.51
+offset_top = -1.04846
+offset_right = -161.51
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect6" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = -146.7
+offset_top = -1.04846
+offset_right = -106.7
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect7" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = -94.6308
+offset_top = -1.04846
+offset_right = -54.6308
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect8" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = -39.8215
+offset_top = -1.04846
+offset_right = 0.178528
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect9" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = 14.9881
+offset_top = -1.04846
+offset_right = 54.9881
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect10" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = 69.7975
+offset_top = -1.04846
+offset_right = 109.798
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect11" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = 124.607
+offset_top = -1.04846
+offset_right = 164.607
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect12" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = 179.417
+offset_top = -1.04846
+offset_right = 219.417
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect13" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = 231.486
+offset_top = -1.04846
+offset_right = 271.486
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect14" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = 286.295
+offset_top = -1.04846
+offset_right = 326.295
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect15" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = 341.105
+offset_top = -1.04846
+offset_right = 381.105
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect16" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Bottom"]
+layout_mode = 0
+offset_left = 395.914
+offset_top = -1.04846
+offset_right = 435.914
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="Top" type="Control" parent="CanvasLayer/AudioVisualizer/Base/Right"]
+anchors_preset = 0
+offset_left = 308.219
+offset_top = -1.04846
+offset_right = 348.219
+offset_bottom = 38.9515
+scale = Vector2(0.499796, 0.574622)
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = -422.588
+offset_top = 19.0
+offset_right = -382.588
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = -367.779
+offset_top = 19.0
+offset_right = -327.779
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect3" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = -312.969
+offset_top = 18.9999
+offset_right = -272.969
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect4" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = -258.16
+offset_top = 19.0
+offset_right = -218.16
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect5" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = -203.35
+offset_top = 18.9999
+offset_right = -163.35
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect6" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = -148.541
+offset_top = 18.9999
+offset_right = -108.541
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect7" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = -96.4713
+offset_top = 18.9999
+offset_right = -56.4713
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect8" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = -41.6619
+offset_top = 18.9999
+offset_right = -1.66187
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect9" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = 13.1477
+offset_top = 18.9999
+offset_right = 53.1477
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect10" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = 67.9572
+offset_top = 19.0
+offset_right = 107.957
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect11" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = 122.767
+offset_top = 19.0
+offset_right = 162.767
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect12" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = 177.576
+offset_top = 19.0
+offset_right = 217.576
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect13" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = 229.645
+offset_top = 19.0
+offset_right = 269.645
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect14" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = 284.455
+offset_top = 19.0
+offset_right = 324.455
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect15" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = 339.264
+offset_top = 18.9999
+offset_right = 379.264
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect16" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Right/Top"]
+layout_mode = 0
+offset_left = 394.074
+offset_top = 18.9999
+offset_right = 434.074
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="Left" type="Control" parent="CanvasLayer/AudioVisualizer/Base"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -487.336
+offset_top = -21.0485
+offset_right = -447.336
+offset_bottom = 18.9515
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bottom" type="Control" parent="CanvasLayer/AudioVisualizer/Base/Left"]
+anchors_preset = 0
+offset_left = 289.036
+offset_top = -1.04846
+offset_right = 329.036
+offset_bottom = 38.9515
+scale = Vector2(0.499796, 0.574622)
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = -420.748
+offset_top = -1.04846
+offset_right = -380.748
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = -365.938
+offset_top = -1.04846
+offset_right = -325.938
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect3" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = -311.129
+offset_top = -1.04846
+offset_right = -271.129
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect4" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = -256.319
+offset_top = -1.04846
+offset_right = -216.319
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect5" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = -201.51
+offset_top = -1.04846
+offset_right = -161.51
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect6" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = -146.7
+offset_top = -1.04846
+offset_right = -106.7
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect7" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = -94.6308
+offset_top = -1.04846
+offset_right = -54.6308
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect8" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = -39.8215
+offset_top = -1.04846
+offset_right = 0.178528
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect9" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = 14.9881
+offset_top = -1.04846
+offset_right = 54.9881
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect10" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = 69.7975
+offset_top = -1.04846
+offset_right = 109.798
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect11" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = 124.607
+offset_top = -1.04846
+offset_right = 164.607
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect12" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = 179.417
+offset_top = -1.04846
+offset_right = 219.417
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect13" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = 231.486
+offset_top = -1.04846
+offset_right = 271.486
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect14" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = 286.295
+offset_top = -1.04846
+offset_right = 326.295
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect15" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = 341.105
+offset_top = -1.04846
+offset_right = 381.105
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect16" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Bottom"]
+layout_mode = 0
+offset_left = 395.914
+offset_top = -1.04846
+offset_right = 435.914
+offset_bottom = 18.9515
+pivot_offset = Vector2(1, 0.5)
+
+[node name="Top" type="Control" parent="CanvasLayer/AudioVisualizer/Base/Left"]
+anchors_preset = 0
+offset_left = 308.219
+offset_top = -1.04846
+offset_right = 348.219
+offset_bottom = 38.9515
+scale = Vector2(0.499796, 0.574622)
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = -422.588
+offset_top = 19.0
+offset_right = -382.588
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = -367.779
+offset_top = 19.0
+offset_right = -327.779
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect3" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = -312.969
+offset_top = 18.9999
+offset_right = -272.969
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect4" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = -258.16
+offset_top = 19.0
+offset_right = -218.16
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect5" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = -203.35
+offset_top = 18.9999
+offset_right = -163.35
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect6" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = -148.541
+offset_top = 18.9999
+offset_right = -108.541
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect7" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = -96.4713
+offset_top = 18.9999
+offset_right = -56.4713
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect8" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = -41.6619
+offset_top = 18.9999
+offset_right = -1.66187
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect9" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = 13.1477
+offset_top = 18.9999
+offset_right = 53.1477
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect10" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = 67.9572
+offset_top = 19.0
+offset_right = 107.957
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect11" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = 122.767
+offset_top = 19.0
+offset_right = 162.767
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect12" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = 177.576
+offset_top = 19.0
+offset_right = 217.576
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect13" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = 229.645
+offset_top = 19.0
+offset_right = 269.645
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect14" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = 284.455
+offset_top = 19.0
+offset_right = 324.455
+offset_bottom = 39.0
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect15" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = 339.264
+offset_top = 18.9999
+offset_right = 379.264
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="ColorRect16" type="ColorRect" parent="CanvasLayer/AudioVisualizer/Base/Left/Top"]
+layout_mode = 0
+offset_left = 394.074
+offset_top = 18.9999
+offset_right = 434.074
+offset_bottom = 38.9999
+rotation = 3.14159
+pivot_offset = Vector2(1, 0.5)
+
+[node name="data" type="Label" parent="CanvasLayer/AudioVisualizer"]
+layout_mode = 0
+offset_left = -404.0
+offset_top = -616.0
+offset_right = -295.0
+offset_bottom = -585.0
+theme_override_font_sizes/font_size = 20
+text = "data
+"
+
+[node name="triger" type="Label" parent="CanvasLayer/AudioVisualizer"]
+layout_mode = 0
+offset_left = -514.0
+offset_top = -585.0
+offset_right = -461.0
+offset_bottom = -540.0
+theme_override_font_sizes/font_size = 30
+text = "
+"
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 20
+text = "audio data:"

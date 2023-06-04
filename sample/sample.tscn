@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxi45l8mvfylf"]
+
+[ext_resource type="PackedScene" uid="uid://bybef6owm43ul" path="res://sample/sample.glb" id="1_b3lkd"]
+
+[node name="sample" instance=ExtResource("1_b3lkd")]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0)
+
+[node name="Skeleton3D" parent="game_rig" index="0"]
+bones/0/rotation = Quaternion(0.99949, 1.64233e-07, 4.88904e-08, 0.0319257)
+bones/1/rotation = Quaternion(0.194052, 2.33887e-07, 6.323e-08, 0.980991)
+bones/2/rotation = Quaternion(-0.598102, -2.65981e-14, -3.37485e-07, 0.80142)
+bones/6/position = Vector3(-0.284021, 1.4072, 0.081744)
+bones/6/rotation = Quaternion(-4.41476e-07, 5.03586e-07, 0.570986, 0.82096)
+bones/9/position = Vector3(0.0975194, 1.3531, 0.081744)
+bones/9/rotation = Quaternion(-4.22111e-07, -4.50674e-07, -0.556652, 0.830746)
+
+[node name="AnimationPlayer" parent="." index="2"]
+autoplay = "idle"

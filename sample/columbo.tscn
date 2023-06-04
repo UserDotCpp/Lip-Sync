@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://ikgd7dllw83g"]
+
+[ext_resource type="Script" path="res://script/COLU2.gd" id="2_if823"]
+
+[node name="columbo"]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
+script = ExtResource("2_if823")
+
+[node name="circle" parent="." index="3"]
+visible = false
+
+[node name="Sphere" parent="." index="4"]
+visible = false
