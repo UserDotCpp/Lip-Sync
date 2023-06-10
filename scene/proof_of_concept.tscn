@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bbin5ukfj2k3h"]
+[gd_scene load_steps=22 format=3 uid="uid://bbin5ukfj2k3h"]
 
 [ext_resource type="PackedScene" uid="uid://d3fjn86nbxy33" path="res://scene/floor.tscn" id="1_53igs"]
 [ext_resource type="Script" path="res://script/test.gd" id="2_l47fl"]
@@ -7,6 +7,7 @@
 [ext_resource type="Material" uid="uid://dtv8hxcjg4i6l" path="res://sample/proof_of_concept_face_shader.tres" id="5_vy06r"]
 [ext_resource type="AudioStream" uid="uid://dfs63qxvvipg4" path="res://assets/audio/o dear.mp3" id="6_w33hd"]
 [ext_resource type="AudioStream" uid="uid://bb1j676ssk4u0" path="res://assets/audio/it doesnt give us much to go on.mp3" id="7_nsqll"]
+[ext_resource type="PackedScene" uid="uid://dyacas1siqvtl" path="res://scene/canvas_layer.tscn" id="8_v2kfr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gr3r0"]
 resource_name = "body"
@@ -487,6 +488,8 @@ layout_mode = 0
 offset_left = 440.0
 offset_right = 480.0
 offset_bottom = 23.0
+
+[node name="CanvasLayer2" parent="sample_character/Camera" instance=ExtResource("8_v2kfr")]
 
 [node name="blink_timer" type="Timer" parent="sample_character"]
 wait_time = 5.0
