@@ -11,7 +11,7 @@ extends Control
  
 @onready var bottomLeftArray = $Base/Left/Bottom.get_children()
  
-const VU_COUNT = 5
+const VU_COUNT = 16
 const HEIGHT = 600
 const FREQ_MAX = 11050.0
  
