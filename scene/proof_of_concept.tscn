@@ -447,28 +447,37 @@ environment = SubResource("Environment_jyqvc")
 offset_right = 40.0
 offset_bottom = 23.0
 text = "pasada                     :
+
 pasada ordenada  :
+
 3 mayores picos    :"
 
 [node name="stored_frequency" type="Label" parent="sample_character/Camera/CanvasLayer/audio frequency"]
 layout_mode = 0
-offset_left = 152.0
-offset_right = 1143.0
-offset_bottom = 23.0
+offset_top = 29.0
+offset_right = 708.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 9
 
 [node name="ordered_stored_frequency" type="Label" parent="sample_character/Camera/CanvasLayer/audio frequency"]
 layout_mode = 0
-offset_left = 152.0
-offset_top = 23.0
-offset_right = 1143.0
-offset_bottom = 49.0
+offset_top = 80.0
+offset_right = 708.0
+offset_bottom = 101.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 9
 
 [node name="picos" type="Label" parent="sample_character/Camera/CanvasLayer/audio frequency"]
 layout_mode = 0
-offset_left = 152.0
-offset_top = 49.0
-offset_right = 366.0
-offset_bottom = 72.0
+offset_left = 155.0
+offset_top = 112.0
+offset_right = 595.0
+offset_bottom = 138.0
 text = "|root_note:                        	|format1:                        |format2:"
 
 [node name="root_note" type="Label" parent="sample_character/Camera/CanvasLayer/audio frequency/picos"]
@@ -493,6 +502,5 @@ offset_bottom = 23.0
 
 [node name="blink_timer" type="Timer" parent="sample_character"]
 wait_time = 5.0
-autostart = true
 
 [connection signal="timeout" from="sample_character/blink_timer" to="sample_character" method="_on_blink_timer_timeout"]
