@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dxt5mwkvs8evw"
+path="res://.godot/imported/u arrenged everiting.mp3-3877d285543f41de0f12c3ab96f14373.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/u arrenged everiting.mp3"
+dest_files=["res://.godot/imported/u arrenged everiting.mp3-3877d285543f41de0f12c3ab96f14373.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

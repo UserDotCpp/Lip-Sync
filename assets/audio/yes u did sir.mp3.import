@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://264bfx2d01ns"
+path="res://.godot/imported/yes u did sir.mp3-bc860717a7d62c70af013271000b1a33.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/yes u did sir.mp3"
+dest_files=["res://.godot/imported/yes u did sir.mp3-bc860717a7d62c70af013271000b1a33.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
