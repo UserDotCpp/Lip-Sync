@@ -37,9 +37,12 @@ var current
 func _ready():
 	if blinking:
 		$blink_timer.start()
+	$Camera/CanvasLayer/semi_open_value/scrolling_bar.value = semi_open_mouth_frequency_value
 	$Camera/CanvasLayer/semi_open_value.text = str($Camera/CanvasLayer/semi_open_value/scrolling_bar.value)
+	$Camera/CanvasLayer/hold_frames/frames_bar.value = hold_x_frames
 	$Camera/CanvasLayer/hold_frames.text = str($Camera/CanvasLayer/hold_frames/frames_bar.value)
-	#holdedframes = hold_x_frames
+
+var hold_the_frame = false
 
 func _process(_delta):
 	prev_hz = 0
@@ -59,8 +62,11 @@ func _process(_delta):
 	if is_speaking:
 		if holdedframes > 0:
 			holdedframes -= 1
-			is_speaking = false #otherwise ,the stored_frequency list goes out of bounds coss it resets every frame to store the 16 VUs
-			return#for some reason the crash keeps hapening so u need to fix this
+			hold_the_frame = true
+			#is_speaking = false #otherwise ,the stored_frequency list goes out of bounds coss it resets every frame to store the 16 VUs
+			#return#for some reason the crash keeps hapening so u need to fix this
+		else:
+			hold_the_frame = false
 		#-----------
 		stored_frequency_lable.text = str(stored_frequency)
 		stored_frequency.sort()
@@ -69,14 +75,14 @@ func _process(_delta):
 
 		$"Camera/CanvasLayer/audio frequency/picos/root_note".text = str(snapped(current , 0.0001))
 
-		face_animations.play("open")
-		if  current >= counter_max/cicles:#semi_open_mouth_frequency_value:#stored_frequency[15].x>= semi_open_mouth_frequency_value:#stored_frequency[15].x>= semi_open_mouth_frequency_value: #semi_open_mouth_frequency_value = 14
-			face_animations.play("semi_open")
-		#the 57% of the semi open value means that the peak is ither decreasing or not up there yet, so this means thats closed <-> 57/100 * num = res
-		elif current <= 0.57 * counter_max/cicles:#mouth_closing_frequency_value:#stored_frequency[15].x <= mouth_closing_frequency_value: #mouth_closing_frequency_value = 8
-			face_animations.play("close")
-
-		holdedframes = hold_x_frames
+		if !hold_the_frame:
+			face_animations.play("open")
+			if  current >= counter_max/cicles:#semi_open_mouth_frequency_value:#stored_frequency[15].x>= semi_open_mouth_frequency_value:#stored_frequency[15].x>= semi_open_mouth_frequency_value: #semi_open_mouth_frequency_value = 14
+				face_animations.play("semi_open")
+			#the 57% of the semi open value means that the peak is ither decreasing or not up there yet, so this means thats closed <-> 57/100 * num = res
+			elif current <= 0.57 * counter_max/cicles:#mouth_closing_frequency_value:#stored_frequency[15].x <= mouth_closing_frequency_value: #mouth_closing_frequency_value = 8
+				face_animations.play("close")
+			holdedframes = hold_x_frames
 		is_speaking = false
 
 		if current <= lowest_max and current >= 1:
@@ -86,8 +92,8 @@ func _process(_delta):
 		cicles = cicles + 1
 	elif !blinking:
 		if salio_de_hablar:
-			if cicles > 2:
-				$"Camera/CanvasLayer/audio frequency/picos/counter_max".text = str(snapped(counter_max , 0.0001))
+			if cicles > 3:
+				$"Camera/CanvasLayer/audio frequency/picos/closed_mouth".text = str(snapped(0.57 * counter_max/cicles , 0.0001))
 				$"Camera/CanvasLayer/audio frequency/picos/promedio_min".text = str(snapped(counter_min/cicles , 0.0001))
 				$"Camera/CanvasLayer/audio frequency/picos/cicles".text = str(cicles)
 				$"Camera/CanvasLayer/audio frequency/picos/promedio_max".text = str(snapped(counter_max/cicles , 0.0001))
@@ -112,9 +118,11 @@ func _on_blink_timer_timeout():
 
 func _on_scrolling_bar_scrolling():
 	$Camera/CanvasLayer/semi_open_value.text = str($Camera/CanvasLayer/semi_open_value/scrolling_bar.value)
+	semi_open_mouth_frequency_value = $Camera/CanvasLayer/semi_open_value/scrolling_bar.value
 
 func _on_frames_bar_scrolling():
 	$Camera/CanvasLayer/hold_frames.text = str($Camera/CanvasLayer/hold_frames/frames_bar.value)
+	hold_x_frames = $Camera/CanvasLayer/hold_frames/frames_bar.value
 
 var next_line_counter = 1
 func _on_play_next_line_pressed():
@@ -124,3 +132,9 @@ func _on_play_next_line_pressed():
 		else:
 			next_line_counter = 1
 		get_node(str("voice/",next_line_counter)).play()
+
+func _on_blinking_on_off_toggled(button_pressed):
+	if button_pressed:
+		$blink_timer.start()
+	else:
+		$blink_timer.stop()
