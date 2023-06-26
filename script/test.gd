@@ -2,37 +2,14 @@ extends Node3D
 
 @onready var spectrum = AudioServer.get_bus_effect_instance(1,0)
 @onready var stored_frequency_lable = $"Camera/CanvasLayer/audio frequency/stored_frequency"
-#@onready var root_note = $"Camera/CanvasLayer/audio frequency/picos/root_note"
-#@onready var format1 = $"Camera/CanvasLayer/audio frequency/picos/format1"
-#@onready var format2 = $"Camera/CanvasLayer/audio frequency/picos/format2"
 @export var face_animations_path : NodePath
 @onready var face_animations = get_node(face_animations_path) #@onready var face_animations = $face
-
+@export var blinking : bool = false
 #@export var mouth_closing_frequency_value : float = 8
 @export var semi_open_mouth_frequency_value : float = 14
 @export var hold_x_frames : int = 3
 
-const VU_COUNT = 16
-const HEIGHT = 600
-const FREQ_MAX = 11050.0
-var current_f = 0
-var prev_hz
-var hz 
-var f
-var stored_frequency
-var aux = [1,2]
-
 var is_speaking = false
-@export var blinking : bool = false
-
-var counter_min = 0.09
-var counter_max = semi_open_mouth_frequency_value# semi_open_mouth_frequency_value #old was 0 , 14 with the mew staff
-var salio_de_hablar
-var cicles = 1
-var lowest_max = 100
-var holdedframes = 0
-var frame_holded = false
-var current
 
 func _ready():
 	if blinking:
@@ -42,6 +19,22 @@ func _ready():
 	$Camera/CanvasLayer/hold_frames/frames_bar.value = hold_x_frames
 	$Camera/CanvasLayer/hold_frames.text = str($Camera/CanvasLayer/hold_frames/frames_bar.value)
 
+const VU_COUNT = 16
+const HEIGHT = 600
+const FREQ_MAX = 11050.0
+var current_f = 0
+var prev_hz
+var hz 
+var f
+var stored_frequency
+var counter_min = 0.09
+var counter_max = semi_open_mouth_frequency_value# semi_open_mouth_frequency_value #old was 0 , 14 with the mew staff
+var salio_de_hablar
+var cicles = 1
+var lowest_max = 100
+var holdedframes = 0
+var frame_holded = false
+var current
 var hold_the_frame = false
 
 func _process(_delta):
@@ -49,14 +42,17 @@ func _process(_delta):
 	stored_frequency = []
 	#the for goes tru all the frequency values inside this frame and it stores them inside stored_frequency
 	for VU_INDEX in range(1,VU_COUNT+1): 
-		hz = VU_INDEX * FREQ_MAX / VU_COUNT; 
+		hz = VU_INDEX * FREQ_MAX / VU_COUNT;
 		f = spectrum.get_magnitude_for_frequency_range(prev_hz,hz,1)
-
+		
+		#stored_frequency.append(Vector2(current_f,VU_INDEX))
 		current_f = f.length()* HEIGHT
 		if f != Vector2(0,0):
 			is_speaking = true
 			salio_de_hablar = true
 			stored_frequency.append(Vector2(snapped(current_f , 0.01),VU_INDEX))#snapped(current_f , 0.001))#frecuencia_pasada.append(current_f) #FULL DATA #stepify in godot 3, snapped godot 4
+		else:
+			stored_frequency.append(Vector2(current_f,VU_INDEX))
 		prev_hz = hz
 
 	if is_speaking:
@@ -125,6 +121,7 @@ func _on_frames_bar_scrolling():
 	hold_x_frames = $Camera/CanvasLayer/hold_frames/frames_bar.value
 
 var next_line_counter = 1
+
 func _on_play_next_line_pressed():
 	if !(get_node(str("voice/",next_line_counter)).playing):
 		if next_line_counter <= 5:
