@@ -1,7 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://bbin5ukfj2k3h"]
+[gd_scene load_steps=24 format=3 uid="uid://bbin5ukfj2k3h"]
 
 [ext_resource type="PackedScene" uid="uid://d3fjn86nbxy33" path="res://scene/floor.tscn" id="1_53igs"]
 [ext_resource type="PackedScene" uid="uid://dwh5hom5oqlnj" path="res://blender_imports/sample.tscn" id="3_ej7c0"]
+[ext_resource type="Script" path="res://scene/voice_logic.gd" id="4_fp75g"]
 [ext_resource type="Script" path="res://script/test.gd" id="4_wi8nl"]
 [ext_resource type="Script" path="res://script/AudioVisualizer.gd" id="6_67nrv"]
 [ext_resource type="AudioStream" uid="uid://dfs63qxvvipg4" path="res://assets/audio/o dear.mp3" id="6_w33hd"]
@@ -9,7 +10,9 @@
 [ext_resource type="AudioStream" uid="uid://ceaak42e2vypm" path="res://assets/audio/here it its.mp3" id="8_v45og"]
 [ext_resource type="AudioStream" uid="uid://dc4eabopcutnj" path="res://assets/audio/inspect the flag.mp3" id="9_3ev3c"]
 [ext_resource type="AudioStream" uid="uid://dxt5mwkvs8evw" path="res://assets/audio/u arrenged everiting.mp3" id="10_umf7w"]
+[ext_resource type="Script" path="res://script/HUD.gd" id="10_wihfh"]
 [ext_resource type="AudioStream" uid="uid://264bfx2d01ns" path="res://assets/audio/yes u did sir.mp3" id="11_h53f0"]
+[ext_resource type="Texture2D" uid="uid://d21esmty7we2p" path="res://assets/sprites/lable.png" id="13_rh22c"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g4gw2"]
 albedo_color = Color(1, 0.494118, 0.239216, 1)
@@ -19,24 +22,26 @@ material = SubResource("StandardMaterial3D_g4gw2")
 
 [sub_resource type="Environment" id="Environment_jvvph"]
 
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_ey7ri"]
+
 [sub_resource type="Animation" id="Animation_c0qfp"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:blinking")
+tracks/0/path = NodePath("game_rig/Skeleton3D/mesh:mesh:surface_1/material:next_pass:shader_parameter/colum_index")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("game_rig/Skeleton3D/mesh:mesh:surface_1/material:next_pass:shader_parameter/colum_index")
+tracks/1/path = NodePath("game_rig/Skeleton3D/mesh:mesh:surface_1/material:next_pass:shader_parameter/row_index")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -48,14 +53,14 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("game_rig/Skeleton3D/mesh:mesh:surface_1/material:next_pass:shader_parameter/row_index")
+tracks/2/path = NodePath("../voice:blinking")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_qcb5a"]
@@ -63,19 +68,19 @@ resource_name = "blink"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:blinking")
+tracks/0/path = NodePath("game_rig/Skeleton3D/mesh:mesh:surface_1/material:next_pass:shader_parameter/colum_index")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0.2, 0.6),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [true, false]
+"values": [2, 0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("game_rig/Skeleton3D/mesh:mesh:surface_1/material:next_pass:shader_parameter/colum_index")
+tracks/1/path = NodePath("game_rig/Skeleton3D/mesh:mesh:surface_1/material:next_pass:shader_parameter/row_index")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -87,14 +92,14 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("game_rig/Skeleton3D/mesh:mesh:surface_1/material:next_pass:shader_parameter/row_index")
+tracks/2/path = NodePath("../voice:blinking")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.2, 0.6),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [2, 0]
+"values": [true, false]
 }
 
 [sub_resource type="Animation" id="Animation_1u5g1"]
@@ -187,11 +192,6 @@ _data = {
 "semi_open": SubResource("Animation_hcr6f")
 }
 
-[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_ey7ri"]
-
-[sub_resource type="Environment" id="Environment_jyqvc"]
-ambient_light_energy = 1.24
-
 [node name="Node3D" type="Node3D"]
 
 [node name="floor" parent="." instance=ExtResource("1_53igs")]
@@ -201,72 +201,20 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.0380987, 0.495723, -1.32295
 mesh = SubResource("BoxMesh_cbyvb")
 skeleton = NodePath("")
 
+[node name="lable" type="Sprite3D" parent="."]
+transform = Transform3D(0.045, 0, 0, 0, 0.045, 0, 0, 0, 0.045, 0.26057, 0.369279, 0.222659)
+texture = ExtResource("13_rh22c")
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.296257, 0.50092)
 environment = SubResource("Environment_jvvph")
 current = true
 
-[node name="sample" parent="." instance=ExtResource("3_ej7c0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00547714, 0, 0.251122)
-script = ExtResource("4_wi8nl")
-face_animations_path = NodePath("face")
+[node name="HUD" type="CanvasLayer" parent="Camera3D"]
+script = ExtResource("10_wihfh")
+voice_logic_path = NodePath("../../voice")
 
-[node name="face" type="AnimationPlayer" parent="sample"]
-libraries = {
-"": SubResource("AnimationLibrary_s6xvh")
-}
-
-[node name="voice" type="Node" parent="sample"]
-
-[node name="1" type="AudioStreamPlayer" parent="sample/voice"]
-stream = ExtResource("6_w33hd")
-volume_db = -0.937
-bus = &"columbo"
-
-[node name="2" type="AudioStreamPlayer" parent="sample/voice"]
-stream = ExtResource("7_nsqll")
-volume_db = -0.937
-bus = &"columbo"
-
-[node name="3" type="AudioStreamPlayer" parent="sample/voice"]
-stream = ExtResource("8_v45og")
-volume_db = -3.248
-bus = &"columbo"
-
-[node name="4" type="AudioStreamPlayer" parent="sample/voice"]
-stream = ExtResource("9_3ev3c")
-volume_db = -9.026
-bus = &"columbo"
-
-[node name="5" type="AudioStreamPlayer" parent="sample/voice"]
-stream = ExtResource("10_umf7w")
-volume_db = -8.448
-bus = &"columbo"
-
-[node name="6" type="AudioStreamPlayer" parent="sample/voice"]
-stream = ExtResource("11_h53f0")
-volume_db = -9.604
-bus = &"columbo"
-
-[node name="7" type="AudioStreamPlayer" parent="sample/voice"]
-volume_db = -0.937
-bus = &"columbo"
-
-[node name="mic" type="AudioStreamPlayer" parent="sample/voice"]
-stream = SubResource("AudioStreamMicrophone_ey7ri")
-volume_db = -20.0
-bus = &"microphone"
-
-[node name="blink_timer" type="Timer" parent="sample"]
-wait_time = 5.0
-
-[node name="Camera" type="Camera3D" parent="sample"]
-transform = Transform3D(0.999523, 0.00415057, 0.0305897, 0, 0.99092, -0.134453, -0.03087, 0.134389, 0.990448, 0.273978, 0.29573, 0.216043)
-environment = SubResource("Environment_jyqvc")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="sample/Camera"]
-
-[node name="audio frequency" type="Label" parent="sample/Camera/CanvasLayer"]
+[node name="audio frequency" type="Label" parent="Camera3D/HUD"]
 offset_left = 201.0
 offset_top = 441.0
 offset_right = 285.0
@@ -275,7 +223,7 @@ theme_override_font_sizes/font_size = 9
 text = " uv chanels
 "
 
-[node name="stored_frequency" type="Label" parent="sample/Camera/CanvasLayer/audio frequency"]
+[node name="stored_frequency" type="Label" parent="Camera3D/HUD/audio frequency"]
 layout_mode = 0
 offset_left = -197.0
 offset_top = 16.0
@@ -286,7 +234,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 9
 
-[node name="picos" type="Label" parent="sample/Camera/CanvasLayer/audio frequency"]
+[node name="picos" type="Label" parent="Camera3D/HUD/audio frequency"]
 layout_mode = 0
 offset_left = -197.0
 offset_top = -442.0
@@ -295,42 +243,42 @@ offset_bottom = -422.0
 theme_override_font_sizes/font_size = 12
 text = "       root note:                               closed mouth:                        promedio max:                         promedio min:                       cicles:"
 
-[node name="root_note" type="Label" parent="sample/Camera/CanvasLayer/audio frequency/picos"]
+[node name="root_note" type="Label" parent="Camera3D/HUD/audio frequency/picos"]
 layout_mode = 0
 offset_left = 26.0
 offset_top = 19.0
 offset_right = 92.0
 offset_bottom = 45.0
 
-[node name="closed_mouth" type="Label" parent="sample/Camera/CanvasLayer/audio frequency/picos"]
+[node name="closed_mouth" type="Label" parent="Camera3D/HUD/audio frequency/picos"]
 layout_mode = 0
 offset_left = 191.0
 offset_top = 19.0
 offset_right = 255.0
 offset_bottom = 45.0
 
-[node name="promedio_min" type="Label" parent="sample/Camera/CanvasLayer/audio frequency/picos"]
+[node name="promedio_min" type="Label" parent="Camera3D/HUD/audio frequency/picos"]
 layout_mode = 0
 offset_left = 509.0
 offset_top = 20.0
 offset_right = 574.0
 offset_bottom = 46.0
 
-[node name="cicles" type="Label" parent="sample/Camera/CanvasLayer/audio frequency/picos"]
+[node name="cicles" type="Label" parent="Camera3D/HUD/audio frequency/picos"]
 layout_mode = 0
 offset_left = 643.0
 offset_top = 20.0
 offset_right = 705.0
 offset_bottom = 46.0
 
-[node name="promedio_max" type="Label" parent="sample/Camera/CanvasLayer/audio frequency/picos"]
+[node name="promedio_max" type="Label" parent="Camera3D/HUD/audio frequency/picos"]
 layout_mode = 0
 offset_left = 341.0
 offset_top = 20.0
 offset_right = 400.0
 offset_bottom = 46.0
 
-[node name="AudioVisualizer" type="Control" parent="sample/Camera/CanvasLayer"]
+[node name="AudioVisualizer" type="Control" parent="Camera3D/HUD"]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 524.0
@@ -339,13 +287,13 @@ offset_right = 564.0
 offset_bottom = 636.0
 script = ExtResource("6_67nrv")
 
-[node name="vu_visualizer" type="Control" parent="sample/Camera/CanvasLayer/AudioVisualizer"]
+[node name="vu_visualizer" type="Control" parent="Camera3D/HUD/AudioVisualizer"]
 anchors_preset = 0
 offset_left = -11.0
 offset_right = 29.0
 offset_bottom = 40.0
 
-[node name="leyend" type="Label" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer"]
+[node name="leyend" type="Label" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -13.416
@@ -358,7 +306,7 @@ offset_bottom = -311.4
 theme_override_font_sizes/font_size = 8
 text = "1   2    3   4   5    6   7   8   9  10  11  12  13  14  15  16"
 
-[node name="Base" type="TextureRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer"]
+[node name="Base" type="TextureRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer"]
 layout_mode = 0
 offset_left = -395.0
 offset_top = -165.0
@@ -366,7 +314,7 @@ offset_right = -122.0
 offset_bottom = -89.0
 scale = Vector2(0.414051, 0.255382)
 
-[node name="Top" type="Control" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base"]
+[node name="Top" type="Control" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base"]
 anchors_preset = 0
 offset_left = -49.4533
 offset_top = 38.9572
@@ -374,7 +322,7 @@ offset_right = -9.45331
 offset_bottom = 78.9571
 scale = Vector2(0.499796, 0.574622)
 
-[node name="ColorRect" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = -416.235
 offset_top = 32.6289
@@ -383,7 +331,7 @@ offset_bottom = 52.6289
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect2" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect2" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = -361.427
 offset_top = 32.6284
@@ -392,7 +340,7 @@ offset_bottom = 52.6284
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect3" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect3" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = -306.616
 offset_top = 32.6289
@@ -401,7 +349,7 @@ offset_bottom = 52.6289
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect4" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect4" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = -251.807
 offset_top = 32.6289
@@ -410,7 +358,7 @@ offset_bottom = 52.6289
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect5" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect5" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = -196.997
 offset_top = 32.6289
@@ -419,7 +367,7 @@ offset_bottom = 52.6289
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect6" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect6" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = -142.188
 offset_top = 32.6284
@@ -428,7 +376,7 @@ offset_bottom = 52.6284
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect7" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect7" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = -90.1187
 offset_top = 32.6289
@@ -437,7 +385,7 @@ offset_bottom = 52.6289
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect8" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect8" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = -35.3093
 offset_top = 32.6284
@@ -446,7 +394,7 @@ offset_bottom = 52.6284
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect9" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect9" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -12.296
@@ -460,7 +408,7 @@ offset_bottom = 85.9113
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect10" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect10" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = 72.4846
 offset_top = 34.0723
@@ -469,7 +417,7 @@ offset_bottom = 54.0723
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect11" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect11" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = 135.304
 offset_top = 34.0713
@@ -478,7 +426,7 @@ offset_bottom = 54.0713
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect12" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect12" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = 198.124
 offset_top = 34.0723
@@ -487,7 +435,7 @@ offset_bottom = 54.0723
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect13" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect13" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = 265.776
 offset_top = 34.0713
@@ -496,7 +444,7 @@ offset_bottom = 54.0713
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect14" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect14" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = 328.596
 offset_top = 34.0713
@@ -505,7 +453,7 @@ offset_bottom = 54.0713
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect15" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect15" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = 391.416
 offset_top = 34.0713
@@ -514,7 +462,7 @@ offset_bottom = 54.0713
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="ColorRect16" type="ColorRect" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base/Top"]
+[node name="ColorRect16" type="ColorRect" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base/Top"]
 layout_mode = 0
 offset_left = 454.236
 offset_top = 34.0718
@@ -523,7 +471,7 @@ offset_bottom = 54.0718
 rotation = 3.14159
 pivot_offset = Vector2(1, 0.5)
 
-[node name="Left" type="Control" parent="sample/Camera/CanvasLayer/AudioVisualizer/vu_visualizer/Base"]
+[node name="Left" type="Control" parent="Camera3D/HUD/AudioVisualizer/vu_visualizer/Base"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -537,13 +485,13 @@ offset_bottom = 18.9515
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="hold_frames" type="Label" parent="sample/Camera/CanvasLayer"]
+[node name="hold_frames" type="Label" parent="Camera3D/HUD"]
 offset_left = 670.0
 offset_top = 340.0
 offset_right = 710.0
 offset_bottom = 366.0
 
-[node name="leyend" type="Label" parent="sample/Camera/CanvasLayer/hold_frames"]
+[node name="leyend" type="Label" parent="Camera3D/HUD/hold_frames"]
 layout_mode = 0
 offset_left = -219.0
 offset_top = -16.0
@@ -552,7 +500,7 @@ offset_bottom = 10.0
 theme_override_font_sizes/font_size = 13
 text = "amount of frames holded in the animation"
 
-[node name="frames_bar" type="HScrollBar" parent="sample/Camera/CanvasLayer/hold_frames"]
+[node name="frames_bar" type="HScrollBar" parent="Camera3D/HUD/hold_frames"]
 layout_mode = 0
 offset_left = -23.0
 offset_top = 26.0
@@ -561,13 +509,13 @@ offset_bottom = 49.0
 max_value = 10.0
 step = 1.0
 
-[node name="semi_open_value" type="Label" parent="sample/Camera/CanvasLayer"]
+[node name="semi_open_value" type="Label" parent="Camera3D/HUD"]
 offset_left = 580.0
 offset_top = 410.0
 offset_right = 620.0
 offset_bottom = 436.0
 
-[node name="scrolling_bar" type="HScrollBar" parent="sample/Camera/CanvasLayer/semi_open_value"]
+[node name="scrolling_bar" type="HScrollBar" parent="Camera3D/HUD/semi_open_value"]
 layout_mode = 0
 offset_left = -129.0
 offset_top = 26.0
@@ -578,7 +526,7 @@ max_value = 20.0
 step = 0.05
 value = 0.001
 
-[node name="leyend" type="Label" parent="sample/Camera/CanvasLayer/semi_open_value"]
+[node name="leyend" type="Label" parent="Camera3D/HUD/semi_open_value"]
 layout_mode = 0
 offset_left = -89.0
 offset_top = -14.0
@@ -587,7 +535,7 @@ offset_bottom = 12.0
 theme_override_font_sizes/font_size = 14
 text = "set when the mount semi opens"
 
-[node name="play_next_line" type="Button" parent="sample/Camera/CanvasLayer"]
+[node name="play_next_line" type="Button" parent="Camera3D/HUD"]
 offset_left = 580.0
 offset_top = 226.0
 offset_right = 710.0
@@ -595,7 +543,7 @@ offset_bottom = 260.0
 tooltip_text = "there are 6 lines"
 text = "play next line"
 
-[node name="enable_blinking" type="Label" parent="sample/Camera/CanvasLayer"]
+[node name="enable_blinking" type="Label" parent="Camera3D/HUD"]
 offset_left = 553.0
 offset_top = 286.0
 offset_right = 717.0
@@ -603,35 +551,35 @@ offset_bottom = 312.0
 theme_override_font_sizes/font_size = 12
 text = "enable blinking   off           on"
 
-[node name="blinking_on_off" type="CheckButton" parent="sample/Camera/CanvasLayer/enable_blinking"]
+[node name="blinking_on_off" type="CheckButton" parent="Camera3D/HUD/enable_blinking"]
 layout_mode = 0
 offset_left = 108.0
 offset_top = -7.0
 offset_right = 152.0
 offset_bottom = 20.0
 
-[node name="mic" type="Label" parent="sample/Camera/CanvasLayer"]
+[node name="mic" type="Label" parent="Camera3D/HUD"]
 offset_left = 1.0
 offset_top = 45.0
 offset_right = 147.0
 offset_bottom = 71.0
 text = "toggle microphone"
 
-[node name="mic" type="CheckButton" parent="sample/Camera/CanvasLayer/mic"]
+[node name="mic" type="CheckButton" parent="Camera3D/HUD/mic"]
 layout_mode = 0
 offset_left = 39.0
 offset_top = 25.0
 offset_right = 83.0
 offset_bottom = 49.0
 
-[node name="min_audio_value_allowed" type="Label" parent="sample/Camera/CanvasLayer"]
+[node name="min_audio_value_allowed" type="Label" parent="Camera3D/HUD"]
 offset_left = 4.0
 offset_top = 94.0
 offset_right = 192.0
 offset_bottom = 120.0
 text = "min audio value allowed"
 
-[node name="min_audio_text" type="TextEdit" parent="sample/Camera/CanvasLayer/min_audio_value_allowed"]
+[node name="min_audio_text" type="TextEdit" parent="Camera3D/HUD/min_audio_value_allowed"]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 30.0
@@ -640,7 +588,7 @@ offset_bottom = 56.0
 text = "0.013"
 placeholder_text = "0.013"
 
-[node name="Button" type="Button" parent="sample/Camera/CanvasLayer/min_audio_value_allowed"]
+[node name="Button" type="Button" parent="Camera3D/HUD/min_audio_value_allowed"]
 layout_mode = 0
 offset_left = 114.0
 offset_top = 26.0
@@ -649,14 +597,14 @@ offset_bottom = 57.0
 disabled = true
 text = "apply"
 
-[node name="mic_audio_volum" type="Label" parent="sample/Camera/CanvasLayer"]
+[node name="mic_audio_volum" type="Label" parent="Camera3D/HUD"]
 offset_left = 16.0
 offset_top = 167.0
 offset_right = 154.0
 offset_bottom = 193.0
 text = "mic audio volume:"
 
-[node name="mic_audio_volum_slider" type="HSlider" parent="sample/Camera/CanvasLayer/mic_audio_volum"]
+[node name="mic_audio_volum_slider" type="HSlider" parent="Camera3D/HUD/mic_audio_volum"]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 15.0
@@ -665,22 +613,89 @@ offset_bottom = 46.0
 min_value = -50.0
 max_value = 50.0
 
-[node name="number" type="Label" parent="sample/Camera/CanvasLayer/mic_audio_volum"]
+[node name="number" type="Label" parent="Camera3D/HUD/mic_audio_volum"]
 layout_mode = 0
 offset_left = 142.0
 offset_right = 182.0
 offset_bottom = 26.0
 text = "0"
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="voice" type="Node" parent="."]
+script = ExtResource("4_fp75g")
+face_animations_path = NodePath("../sample/face")
+HUD_path = NodePath("../Camera3D/HUD")
+
+[node name="1" type="AudioStreamPlayer" parent="voice"]
+stream = ExtResource("6_w33hd")
+volume_db = -0.937
+bus = &"columbo"
+
+[node name="2" type="AudioStreamPlayer" parent="voice"]
+stream = ExtResource("7_nsqll")
+volume_db = -0.937
+bus = &"columbo"
+
+[node name="3" type="AudioStreamPlayer" parent="voice"]
+stream = ExtResource("8_v45og")
+volume_db = -3.248
+bus = &"columbo"
+
+[node name="4" type="AudioStreamPlayer" parent="voice"]
+stream = ExtResource("9_3ev3c")
+volume_db = -9.026
+bus = &"columbo"
+
+[node name="5" type="AudioStreamPlayer" parent="voice"]
+stream = ExtResource("10_umf7w")
+volume_db = -8.448
+bus = &"columbo"
+
+[node name="6" type="AudioStreamPlayer" parent="voice"]
+stream = ExtResource("11_h53f0")
+volume_db = -9.604
+bus = &"columbo"
+
+[node name="7" type="AudioStreamPlayer" parent="voice"]
+volume_db = -0.937
+bus = &"columbo"
+
+[node name="mic" type="AudioStreamPlayer" parent="voice"]
+stream = SubResource("AudioStreamMicrophone_ey7ri")
+volume_db = -20.0
+bus = &"microphone"
+
+[node name="blink_timer" type="Timer" parent="voice"]
+
+[node name="sample" parent="." instance=ExtResource("3_ej7c0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00101255, 0, 0.37472)
+script = ExtResource("4_wi8nl")
+
+[node name="Skeleton3D" parent="sample/game_rig" index="0"]
+bones/0/position = Vector3(-3.45585e-07, 1.05749, 0.0270688)
+bones/1/rotation = Quaternion(-0.000601987, -0.145583, 0.989329, -0.00575896)
+bones/2/rotation = Quaternion(0.242088, 0.000593756, 0.000720417, 0.970254)
+bones/3/rotation = Quaternion(-0.808792, -0.000646483, -0.00134639, 0.588094)
+bones/12/position = Vector3(-0.340408, 0.818808, -0.0895461)
+bones/19/position = Vector3(0.374125, 0.854361, -0.0947245)
+bones/29/rotation = Quaternion(0.000599714, -0.145575, 0.98933, 0.00575898)
+bones/30/rotation = Quaternion(0.242077, -0.000594481, -0.000719193, 0.970257)
+bones/31/rotation = Quaternion(-0.808789, 0.000645594, 0.0013448, 0.588097)
+
+[node name="face" type="AnimationPlayer" parent="sample"]
+libraries = {
+"": SubResource("AnimationLibrary_s6xvh")
+}
+
+[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.0189705, 0.99982, 0, -0.99982, -0.0189705, 0, 3.76667, 0.365847)
 
-[connection signal="scrolling" from="sample/Camera/CanvasLayer/hold_frames/frames_bar" to="sample" method="_on_frames_bar_scrolling"]
-[connection signal="scrolling" from="sample/Camera/CanvasLayer/semi_open_value/scrolling_bar" to="sample" method="_on_scrolling_bar_scrolling"]
-[connection signal="pressed" from="sample/Camera/CanvasLayer/play_next_line" to="sample" method="_on_play_next_line_pressed"]
-[connection signal="toggled" from="sample/Camera/CanvasLayer/enable_blinking/blinking_on_off" to="sample" method="_on_blinking_on_off_toggled"]
-[connection signal="toggled" from="sample/Camera/CanvasLayer/mic/mic" to="sample" method="_on_mic_toggled"]
-[connection signal="pressed" from="sample/Camera/CanvasLayer/min_audio_value_allowed/Button" to="sample" method="_on_min_audio_value_allowed_button_pressed"]
-[connection signal="drag_ended" from="sample/Camera/CanvasLayer/mic_audio_volum/mic_audio_volum_slider" to="sample" method="_on_mic_audio_volum_slider_drag_ended"]
+[connection signal="scrolling" from="Camera3D/HUD/hold_frames/frames_bar" to="Camera3D/HUD" method="_on_frames_bar_scrolling"]
+[connection signal="scrolling" from="Camera3D/HUD/semi_open_value/scrolling_bar" to="Camera3D/HUD" method="_on_scrolling_bar_scrolling"]
+[connection signal="pressed" from="Camera3D/HUD/play_next_line" to="Camera3D/HUD" method="_on_play_next_line_pressed"]
+[connection signal="toggled" from="Camera3D/HUD/enable_blinking/blinking_on_off" to="Camera3D/HUD" method="_on_blinking_on_off_toggled"]
+[connection signal="toggled" from="Camera3D/HUD/mic/mic" to="Camera3D/HUD" method="_on_mic_toggled"]
+[connection signal="pressed" from="Camera3D/HUD/min_audio_value_allowed/Button" to="Camera3D/HUD" method="_on_min_audio_value_allowed_button_pressed"]
+[connection signal="drag_ended" from="Camera3D/HUD/mic_audio_volum/mic_audio_volum_slider" to="Camera3D/HUD" method="_on_mic_audio_volum_slider_drag_ended"]
+[connection signal="timeout" from="voice/blink_timer" to="voice" method="_on_blink_timer_timeout"]
 
 [editable path="sample"]

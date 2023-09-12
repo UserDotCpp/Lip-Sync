@@ -6,12 +6,10 @@ const VU_COUNT = 16
 const HEIGHT = 800
 const FREQ_MAX = 11050.0
 const MIN_DB = 60
- 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	topLeftArray.reverse()
  
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	var prev_hz = 0
 	for i in range(1,VU_COUNT+1):   
