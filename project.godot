@@ -12,13 +12,14 @@ config_version=5
 
 config/name="3dLipSync"
 run/main_scene="res://scene/proof_of_concept.tscn"
-config/features=PackedStringArray("4.0", "GL Compatibility")
+config/features=PackedStringArray("4.1", "GL Compatibility")
 run/max_fps=60
 config/icon="res://assets/icon.svg"
 
 [audio]
 
 buses/default_bus_layout="res://resources/default_bus_layout.tres"
+driver/enable_input=true
 
 [display]
 

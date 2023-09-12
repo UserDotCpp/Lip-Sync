@@ -5,6 +5,7 @@
 .import/
 export.cfg
 export_presets.cfg
+blender_imports/
 export/
 .export/
 # Imported translations (automatically generated from CSV files)

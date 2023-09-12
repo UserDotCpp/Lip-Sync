@@ -1,0 +1,23 @@
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://cphp2clco6swp"]
+
+[ext_resource type="Texture2D" uid="uid://3acq3culmjtk" path="res://blender_imports/TEST_ttFace.png" id="1_fvcif"]
+[ext_resource type="Shader" path="res://resources/face_shader_gd4.gdshader" id="2_18rgp"]
+[ext_resource type="Texture2D" uid="uid://28k3eqtvc34e" path="res://blender_imports/sample_ttFace.png" id="3_c5lwt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uqsf3"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_18rgp")
+shader_parameter/colum_index = 0
+shader_parameter/row_index = 0
+shader_parameter/total_frames = 4
+shader_parameter/target_texture = ExtResource("3_c5lwt")
+
+[resource]
+resource_local_to_scene = true
+resource_name = "face"
+next_pass = SubResource("ShaderMaterial_uqsf3")
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_fvcif")
+roughness = 0.5

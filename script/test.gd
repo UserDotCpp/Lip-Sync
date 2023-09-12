@@ -11,6 +11,9 @@ extends Node3D
 
 var is_speaking = false
 
+var effect
+var recording
+
 func _ready():
 	if blinking:
 		$blink_timer.start()
@@ -18,6 +21,11 @@ func _ready():
 	$Camera/CanvasLayer/semi_open_value.text = str($Camera/CanvasLayer/semi_open_value/scrolling_bar.value)
 	$Camera/CanvasLayer/hold_frames/frames_bar.value = hold_x_frames
 	$Camera/CanvasLayer/hold_frames.text = str($Camera/CanvasLayer/hold_frames/frames_bar.value)
+	$Camera/CanvasLayer/mic_audio_volum/mic_audio_volum_slider.value = $voice/mic.volume_db
+	$Camera/CanvasLayer/mic_audio_volum/number.text = str($voice/mic.volume_db)
+	var idx = AudioServer.get_bus_index("microphone")
+
+	effect = AudioServer.get_bus_effect(idx, 0)
 
 const VU_COUNT = 16
 const HEIGHT = 600
@@ -37,9 +45,16 @@ var frame_holded = false
 var current
 var hold_the_frame = false
 
+var maxValue = 0
+var vawel_region = []
+var on_a_balley = false
+
+var min_audio_value_allowed = 0
+
 func _process(_delta):
 	prev_hz = 0
 	stored_frequency = []
+	
 	#the for goes tru all the frequency values inside this frame and it stores them inside stored_frequency
 	for VU_INDEX in range(1,VU_COUNT+1): 
 		hz = VU_INDEX * FREQ_MAX / VU_COUNT;
@@ -47,7 +62,8 @@ func _process(_delta):
 		
 		#stored_frequency.append(Vector2(current_f,VU_INDEX))
 		current_f = f.length()* HEIGHT
-		if f != Vector2(0,0):
+		if current_f > min_audio_value_allowed:
+			#print(current_f)
 			is_speaking = true
 			salio_de_hablar = true
 			stored_frequency.append(Vector2(snapped(current_f , 0.01),VU_INDEX))#snapped(current_f , 0.001))#frecuencia_pasada.append(current_f) #FULL DATA #stepify in godot 3, snapped godot 4
@@ -68,6 +84,17 @@ func _process(_delta):
 		stored_frequency.sort()
 
 		current = stored_frequency[15].x
+		
+		if maxValue <= current:
+			maxValue = current
+			vawel_region.append(current_f)
+			on_a_balley = false
+		elif maxValue != 0:
+			on_a_balley = true
+
+		if on_a_balley and vawel_region != []: 
+			#print(vawel_region)
+			vawel_region = []
 
 		$"Camera/CanvasLayer/audio frequency/picos/root_note".text = str(snapped(current , 0.0001))
 
@@ -99,18 +126,49 @@ func _process(_delta):
 			salio_de_hablar = false
 		face_animations.play("close")
 
-func _physics_process(_delta):
-	# Add the gravity.
-	if Input.is_action_just_pressed("e") and !is_speaking:
-		$voice/"1".play()
-	if Input.is_action_just_pressed("q") and !is_speaking:
-		$voice/"2".play()
+
+
+
+
+
 
 func _on_blink_timer_timeout():
 	#turn the Autostart on if u want the model to blink || 
 	if !is_speaking:
 		blinking = true
 		face_animations.play("blink")
+
+
+
+
+
+
+
+
+
+
+
+func _physics_process(_delta):
+	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
+	if direction != Vector3(0,0,0):
+		self.position = position + direction * 0.005
+
+	# Add the gravity.
+	if Input.is_action_just_pressed("e") and !is_speaking:
+		$voice/"1".play()
+	if Input.is_action_just_pressed("q") and !is_speaking:
+		$voice/"2".play()
+
+
+
+
+
+
+
+
+#HUD:
 
 func _on_scrolling_bar_scrolling():
 	$Camera/CanvasLayer/semi_open_value.text = str($Camera/CanvasLayer/semi_open_value/scrolling_bar.value)
@@ -135,3 +193,26 @@ func _on_blinking_on_off_toggled(button_pressed):
 		$blink_timer.start()
 	else:
 		$blink_timer.stop()
+
+func _on_mic_toggled(button_pressed):
+	if button_pressed:#microphone
+		$Camera/CanvasLayer/play_next_line.disabled = true
+		min_audio_value_allowed = float($Camera/CanvasLayer/min_audio_value_allowed/min_audio_text.text)
+		$voice/mic.playing = true
+		$Camera/CanvasLayer/min_audio_value_allowed/Button.disabled = false
+		spectrum = AudioServer.get_bus_effect_instance(2,0)
+	else:#pre recorded stuff
+		$Camera/CanvasLayer/play_next_line.disabled = false
+		$Camera/CanvasLayer/min_audio_value_allowed/Button.disabled = true
+		spectrum = AudioServer.get_bus_effect_instance(1,0)
+		$voice/mic.playing = false
+		min_audio_value_allowed = 0
+
+func _on_min_audio_value_allowed_button_pressed():
+	min_audio_value_allowed = float($Camera/CanvasLayer/min_audio_value_allowed/min_audio_text.text)
+
+
+func _on_mic_audio_volum_slider_drag_ended(value_changed):
+	if value_changed:
+		$voice/mic.volume_db = $Camera/CanvasLayer/mic_audio_volum/mic_audio_volum_slider.value
+		$Camera/CanvasLayer/mic_audio_volum/number.text = str($voice/mic.volume_db) 
