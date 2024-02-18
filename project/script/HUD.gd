@@ -3,6 +3,8 @@ extends CanvasLayer
 @export var voice_logic_path : NodePath
 @onready var voice_logic = get_node(voice_logic_path)
 
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$semi_open_value/scrolling_bar.value = voice_logic.semi_open_mouth_frequency_value
@@ -38,12 +40,14 @@ func _on_blinking_on_off_toggled(button_pressed):
 
 func _on_mic_toggled(button_pressed):
 	if button_pressed:#microphone
+		$AudioVisualizer.change_visualization(2)
 		$play_next_line.disabled = true
 		voice_logic.min_audio_value_allowed = float($min_audio_value_allowed/min_audio_text.text)
 		voice_logic.get_node("mic").playing = true
 		$min_audio_value_allowed/Button.disabled = false
 		voice_logic.spectrum = AudioServer.get_bus_effect_instance(2,0)
 	else:#pre recorded stuff
+		$AudioVisualizer.change_visualization(1)
 		$play_next_line.disabled = false
 		$min_audio_value_allowed/Button.disabled = true
 		voice_logic.spectrum = AudioServer.get_bus_effect_instance(1,0)

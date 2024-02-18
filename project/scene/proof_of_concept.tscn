@@ -203,6 +203,7 @@ skeleton = NodePath("")
 
 [node name="lable" type="Sprite3D" parent="."]
 transform = Transform3D(0.045, 0, 0, 0, 0.045, 0, 0, 0, 0.045, 0.26057, 0.369279, 0.222659)
+visible = false
 texture = ExtResource("13_rh22c")
 
 [node name="Camera3D" type="Camera3D" parent="."]

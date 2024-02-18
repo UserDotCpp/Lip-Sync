@@ -24,3 +24,6 @@ func _process(_delta):
 		var tween = get_tree().create_tween()
 
 		tween.tween_property(topLeftRect, "size", Vector2(topLeftRect.size.x, height), 0.05)
+
+func change_visualization(value):
+	spectrum = AudioServer.get_bus_effect_instance(value,0)
